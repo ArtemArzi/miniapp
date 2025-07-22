@@ -1,0 +1,38 @@
+[Unit]
+Description=JAGUAR FIGHT CLUB Application
+Requires=docker.service
+After=docker.service network.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/jaguar-app
+ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml down
+ExecStart=/usr/bin/docker-compose -f docker-compose.yml up -d
+ExecStop=/usr/bin/docker-compose -f docker-compose.yml down
+ExecReload=/usr/bin/docker-compose -f docker-compose.yml restart
+TimeoutStartSec=0
+Restart=on-failure
+RestartSec=10s
+
+# Security settings
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/opt/jaguar-app
+ReadWritePaths=/var/log/jaguar-app
+User=root
+Group=docker
+
+# Resource limits
+LimitNOFILE=65536
+LimitCORE=0
+
+# Environment
+Environment="COMPOSE_PROJECT_NAME=jaguar"
+Environment="COMPOSE_FILE=docker-compose.yml"
+
+[Install]
+WantedBy=multi-user.target

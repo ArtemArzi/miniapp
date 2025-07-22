@@ -1,0 +1,75 @@
+# Docker Compose Security Override
+# Дополнительные настройки безопасности для production
+
+version: '3.8'
+
+services:
+  app:
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+      - apparmor=docker-default
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/test"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Logging configuration
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=jaguar-app"
+    
+    # User mapping (run as non-root inside container)
+    user: "node:node"
+    
+    # Read-only root filesystem
+    read_only: true
+    
+    # Temporary filesystem mounts
+    tmpfs:
+      - /tmp:noexec,nosuid,size=100m
+      - /app/logs:noexec,nosuid,size=50m
+    
+    # Environment security
+    environment:
+      - NODE_ENV=production
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_FUND=false
+    
+    # Network security
+    networks:
+      - jaguar-network
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Additional security labels
+    labels:
+      - "traefik.enable=false"
+      - "security.scan=enabled"
+
+networks:
+  jaguar-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    internal: false
+    labels:
+      - "network.security=high"

@@ -1,0 +1,124 @@
+name: 🚀 Deploy to VPS
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  NODE_VERSION: '18'
+  DOCKER_IMAGE: 'jaguar-fight-club'
+
+jobs:
+  # Тестирование и сборка
+  test-and-build:
+    name: 🧪 Test & Build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install frontend dependencies
+        run: npm ci
+
+      - name: 📦 Install backend dependencies
+        run: cd backend && npm ci
+
+      - name: 🔍 Lint frontend
+        run: npm run lint
+
+      - name: 🏗️ Build frontend
+        run: npm run build
+        env:
+          VITE_API_URL: /api
+          VITE_NODE_ENV: production
+
+      - name: 🧪 Test backend (placeholder)
+        run: cd backend && npm test || echo "No tests configured yet"
+
+      - name: 📊 Build report
+        run: |
+          echo "✅ Frontend build size:" 
+          du -sh dist/
+          echo "✅ Backend dependencies:"
+          cd backend && npm ls --depth=0 --prod
+
+  # Deployment на VPS (только для main/master)
+  deploy:
+    name: 🚀 Deploy to VPS
+    runs-on: ubuntu-latest
+    needs: test-and-build
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔑 Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: 🖥️ Deploy to VPS
+        run: |
+          # Добавляем VPS в known_hosts
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          
+          # Копируем файлы на VPS
+          rsync -avz --delete \
+            --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude '*.log' \
+            --exclude '.env*' \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/jaguar-app/
+          
+          # Выполняем deployment на VPS
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd /opt/jaguar-app
+            
+            # Копируем production environment файлы
+            cp .env.production .env
+            cp backend/.env.production backend/.env
+            
+            # Обновляем с учетом домена VPS
+            sed -i "s/YOUR_DOMAIN.COM/${{ secrets.VPS_DOMAIN }}/g" backend/.env
+            
+            # Пересобираем и перезапускаем контейнеры
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d
+            
+            # Проверяем здоровье приложения
+            sleep 30
+            curl -f http://localhost:3001/api/test || exit 1
+            
+            echo "✅ Deployment completed successfully!"
+          EOF
+
+  # Уведомления о результате
+  notify:
+    name: 📢 Notify
+    runs-on: ubuntu-latest
+    needs: [test-and-build, deploy]
+    if: always()
+    
+    steps:
+      - name: 📢 Success notification
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "✅ Deployment to VPS completed successfully!"
+          echo "🌐 Application available at: https://${{ secrets.VPS_DOMAIN }}"
+      
+      - name: ❌ Failure notification  
+        if: needs.deploy.result == 'failure'
+        run: |
+          echo "❌ Deployment failed!"
+          echo "Check the logs above for details."

@@ -1,0 +1,434 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile Navigation Styles */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Touch targets optimization */
+@media (pointer: coarse) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+  .mobile-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .mobile-card {
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+  
+  .mobile-text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+/* Улучшенная типографика для мобильных устройств */
+.mobile-h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.mobile-h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.mobile-h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mobile-body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.mobile-body-sm {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.mobile-caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* Десктопные размеры */
+@media (min-width: 768px) {
+  .mobile-h1 {
+    font-size: 2rem;
+  }
+  
+  .mobile-h2 {
+    font-size: 1.5rem;
+  }
+  
+  .mobile-h3 {
+    font-size: 1.25rem;
+  }
+  
+  .mobile-body {
+    font-size: 1.125rem;
+  }
+  
+  .mobile-body-sm {
+    font-size: 1rem;
+  }
+  
+  .mobile-caption {
+    font-size: 0.875rem;
+  }
+}
+
+/* Улучшенные элементы формы для мобильных */
+.mobile-button {
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.mobile-input {
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+.mobile-select {
+  min-height: 48px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+/* Оптимизация читаемости */
+.mobile-content {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .mobile-content {
+    max-width: 64rem;
+  }
+}
+
+.mobile-line-height {
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .mobile-line-height {
+    line-height: 1.75;
+  }
+}
+
+/* Анимации и микроинтеракции */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Классы для анимаций */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+.bounce-animation {
+  animation: bounce 1s;
+}
+
+.shimmer-animation {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Hover эффекты для интерактивных элементов */
+.interactive-hover {
+  transition: all 0.2s ease;
+}
+
+.interactive-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.interactive-hover:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимации для кнопок */
+.button-press {
+  transition: all 0.1s ease;
+}
+
+.button-press:active {
+  transform: scale(0.95);
+}
+
+/* Анимации для карточек */
+.card-animation {
+  transition: all 0.3s ease;
+}
+
+.card-animation:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимации для progress bars */
+.progress-animation {
+  transition: all 0.5s ease;
+}
+
+.progress-fill {
+  transition: width 0.8s ease;
+}
+
+/* Анимации для навигации */
+.nav-item {
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  transform: scale(1.05);
+}
+
+.nav-item:active {
+  transform: scale(0.95);
+}
+
+/* Анимации для модалок */
+.modal-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  animation: slideInUp 0.3s ease-out;
+}
+
+/* Анимации для уведомлений */
+.notification-enter {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.notification-exit {
+  animation: fadeIn 0.3s ease-out reverse;
+}
+
+/* Загрузочные анимации */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Анимации для success states */
+.success-animation {
+  animation: bounce 0.6s ease;
+}
+
+/* Стили для smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Telegram WebApp интеграция */
+.telegram-dark {
+  --background: var(--telegram-bg, #1a1a1a);
+  --foreground: var(--telegram-text, #ffffff);
+  --muted-foreground: var(--telegram-hint, #8a8a8a);
+  --primary: var(--telegram-button, #FF6B35);
+  --primary-foreground: var(--telegram-button-text, #ffffff);
+  --card: var(--telegram-bg, #2a2a2a);
+  --card-foreground: var(--telegram-text, #ffffff);
+  --border: var(--telegram-hint, #404040);
+}
+
+/* Адаптация для Telegram WebApp */
+.telegram-webapp {
+  /* Убираем отступы для полноэкранного режима */
+  padding: 0;
+  margin: 0;
+  
+  /* Отключаем выделение текста */
+  -webkit-user-select: none;
+  user-select: none;
+  
+  /* Отключаем контекстное меню */
+  -webkit-touch-callout: none;
+  
+  /* Отключаем zoom при двойном тапе */
+  touch-action: manipulation;
+}
+
+/* Telegram цветовая схема */
+:root {
+  --telegram-primary: #FF6B35;
+  --telegram-secondary: #4ECDC4;
+  --telegram-accent: #FFD93D;
+  --telegram-success: #6BCF7F;
+  --telegram-warning: #FFB347;
+  --telegram-error: #FF6B6B;
+}
+
+/* Telegram главная кнопка стиль */
+.telegram-main-button {
+  background: var(--telegram-button, var(--telegram-primary));
+  color: var(--telegram-button-text, #ffffff);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.telegram-main-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.telegram-main-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Telegram стиль для карточек */
+.telegram-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.telegram-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Telegram стиль для навигации */
+.telegram-nav {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Анимации для Telegram */
+.telegram-fade-in {
+  animation: telegramFadeIn 0.3s ease-out;
+}
+
+@keyframes telegramFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для темной темы Telegram */
+.telegram-dark .telegram-card {
+  background: #2a2a2a;
+  border-color: #404040;
+}
+
+.telegram-dark .telegram-nav {
+  background: #1a1a1a;
+  border-color: #404040;
+}
