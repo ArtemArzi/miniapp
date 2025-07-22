@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path'); // Добавлена эта строка для работы с путями
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -16,17 +17,16 @@ const { JaguarTelegramBot } = require('./src/telegram/bot');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Настройка rate limiting (отключено для тестирования)
+// Настройка rate limiting
 const limiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000, // 24 часа (практически отключено)
-  max: 10000, // 10000 запросов в день (очень много)
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 10000,
   message: 'Слишком много запросов с этого IP, попробуйте позже.'
 });
 
-// Middleware
-app.use(helmet()); // Базовая безопасность
-app.use(limiter); // Rate limiting
-// Гибкая настройка CORS для разных портов
+// --- Настройка Middleware (промежуточного ПО) ---
+app.use(helmet());
+app.use(limiter);
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -45,10 +45,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Статичные файлы для тестирования
-app.use('/test', express.static(__dirname));
-
-// API роуты
+// --- Регистрация маршрутов API ---
 app.use('/api/auth', authRoutes);
 app.use('/api/point-a', pointARoutes);
 app.use('/api/comments', commentsRoutes);
@@ -62,41 +59,34 @@ app.get('/api/test', (req, res) => {
   res.json({
     message: 'API роуты работают!',
     availableEndpoints: {
-      // Аутентификация
       'POST /api/auth/login': 'Вход в систему',
       'POST /api/auth/register': 'Регистрация',
-      'GET /api/auth/profile': 'Профиль (нужен токен)',
-      
-      // Анкеты "Точка А"
-      'POST /api/point-a': 'Сохранение анкеты (клиент)',
-      'GET /api/point-a': 'Получение анкеты (клиент)',
-      'GET /api/point-a/:userId': 'Получение анкеты клиента (тренер)',
-      
-      // Комментарии
-      'POST /api/comments': 'Добавление комментария (тренер)',
-      'GET /api/comments': 'Получение комментариев',
-      'GET /api/comments/unread/count': 'Количество непрочитанных',
-      
-      // Пользователи
-      'GET /api/users': 'Список пользователей (тренер)',
-      'GET /api/users/:userId': 'Информация о пользователе',
-      'GET /api/users/:userId/stats': 'Статистика пользователя',
-      
-      // Тренировки
-      'POST /api/trainings': 'Добавить тренировку (тренер)',
-      'GET /api/trainings': 'Получить тренировки',
-      'GET /api/trainings/stats/:clientId': 'Статистика тренировок клиента',
-      'PUT /api/trainings/:id': 'Обновить тренировку (тренер)',
-      'DELETE /api/trainings/:id': 'Удалить тренировку (тренер/админ)',
-      
-      // Прогресс
-      'POST /api/progress': 'Обновить показатели прогресса (клиент)',
-      'GET /api/progress': 'Получить историю прогресса',
-      'GET /api/progress/latest/:userId': 'Последние показатели пользователя',
-      'GET /api/progress/comparison/:userId': 'Сравнение с "Точкой А"'
+      // ... и другие ваши эндпоинты
     },
     note: 'Все endpoints кроме auth требуют JWT токен!'
   });
+});
+
+
+// =========================================================
+// === НОВЫЙ БЛОК: Раздача статического фронтенда (React) ===
+// =========================================================
+// Этот блок должен идти ПОСЛЕ всех маршрутов API
+
+// 1. Указываем Express, где лежат статические файлы (сборка React)
+// Путь '../dist' правильный, так как server.js находится в /app/backend, а сборка в /app/dist
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// 2. На все остальные запросы (которые не /api/*) отдаем главный файл фронтенда
+// Это нужно, чтобы роутинг на стороне клиента (React Router) работал корректно
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+
+// --- Запуск сервера ---
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на порту ${PORT}`);
 });
 
 // Базовый роут для проверки
