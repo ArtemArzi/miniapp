@@ -58,7 +58,28 @@ pids
 
 # Database files (will be created in container)
 backend/database/*.db
+*.sqlite
+*.sqlite3
+
+# Docker files
+Dockerfile*
+docker-compose*.yml
+
+# Screenshots and documentation images
+*.png
+*.jpg
+*.jpeg
+*.gif
+!src/assets/**
+
+# Configuration files
+.eslintrc*
+.prettierrc*
+jest.config.js
+vitest.config.js
 
 # Temporary files
 .tmp
 .temp
+tmp/
+temp/
