@@ -8,13 +8,12 @@ services:
     ports:
       - "3001:3001"
     env_file:
-      - .env
-      - backend/.env
+      - .env.production
+      - backend/.env.production
     environment:
       # Override specific variables for Docker environment
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=3001
-      - DB_PATH=./database/jaguar_club.db
     volumes:
       # Persistent data storage
       - app_data:/app/backend/database
