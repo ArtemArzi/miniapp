@@ -17,6 +17,44 @@ const { JaguarTelegramBot } = require('./src/telegram/bot');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Функция проверки и освобождения порта
+async function ensurePortAvailable(port) {
+  return new Promise((resolve) => {
+    const net = require('net');
+    const server = net.createServer();
+    
+    server.listen(port, '0.0.0.0', (err) => {
+      if (err) {
+        console.log(`⚠️  Порт ${port} занят, попытка освобождения...`);
+        server.close();
+        
+        // Принудительно освобождаем порт (для Docker)
+        const { exec } = require('child_process');
+        exec(`kill -9 $(lsof -ti:${port}) 2>/dev/null || echo "Процессы на порту ${port} не найдены"`, (error, stdout, stderr) => {
+          console.log(`🔄 Освобождение порта ${port}: ${stdout}`);
+          setTimeout(resolve, 3000); // Даем время на освобождение
+        });
+      } else {
+        console.log(`✅ Порт ${port} доступен`);
+        server.close();
+        resolve();
+      }
+    });
+    
+    server.on('error', (err) => {
+      console.log(`⚠️  Ошибка проверки порта ${port}: ${err.message}`);
+      server.close();
+      
+      // Принудительно освобождаем порт
+      const { exec } = require('child_process');
+      exec(`kill -9 $(lsof -ti:${port}) 2>/dev/null || echo "Процессы на порту ${port} не найдены"`, (error, stdout, stderr) => {
+        console.log(`🔄 Принудительное освобождение порта ${port}: ${stdout}`);
+        setTimeout(resolve, 3000);
+      });
+    });
+  });
+}
+
 // Настройка rate limiting
 const limiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000,
@@ -135,6 +173,11 @@ app.use((err, req, res, next) => {
 // Запуск сервера с инициализацией БД
 async function startServer() {
   try {
+    console.log('🚀 Запуск JAGUAR FIGHT CLUB API...');
+    
+    // Проверяем и освобождаем порт
+    await ensurePortAvailable(PORT);
+    
     // Инициализируем базу данных
     await database.init();
     
@@ -183,10 +226,10 @@ async function startServer() {
       }
     }
     
-    // Запускаем сервер
-    app.listen(PORT, () => {
+    // Запускаем сервер с привязкой к 0.0.0.0 для Docker
+    const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 JAGUAR FIGHT CLUB API запущен на порту ${PORT}`);
-      console.log(`🌐 Доступен по адресу: http://localhost:${PORT}`);
+      console.log(`🌐 Доступен по адресу: http://0.0.0.0:${PORT}`);
       console.log(`🎯 Окружение: ${process.env.NODE_ENV}`);
       console.log(`📊 API Endpoints:`);
       console.log(`   ✨ Аутентификация:`);
@@ -205,6 +248,9 @@ async function startServer() {
       console.log(``);
       console.log(`🧪 Тестирование: http://localhost:${PORT}/test/API_TESTING_FULL.md`);
     });
+    
+    // Сохраняем ссылку на сервер для graceful shutdown
+    app.locals.httpServer = server;
   } catch (error) {
     console.error('❌ Ошибка запуска сервера:', error);
     process.exit(1);
@@ -212,8 +258,16 @@ async function startServer() {
 }
 
 // Обработка завершения процесса
-process.on('SIGINT', async () => {
-  console.log('\n🚫 Получен сигнал завершения...');
+const gracefulShutdown = async (signal) => {
+  console.log(`\n🚫 Получен сигнал ${signal}...`);
+  
+  // Останавливаем HTTP сервер
+  if (app.locals.httpServer) {
+    console.log('🌐 Остановка HTTP сервера...');
+    app.locals.httpServer.close(() => {
+      console.log('✅ HTTP сервер остановлен');
+    });
+  }
   
   // Останавливаем Telegram Bot
   if (app.locals.telegramBot) {
@@ -225,7 +279,10 @@ process.on('SIGINT', async () => {
   await database.close();
   console.log('👋 Сервер остановлен');
   process.exit(0);
-});
+};
+
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 
 // Запускаем сервер
 startServer();

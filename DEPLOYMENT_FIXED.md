@@ -12,8 +12,11 @@
 - ❌ **ИСПРАВЛЕНО**: Конфликтующие volume mappings
 - ❌ **ИСПРАВЛЕНО**: Restart policy causing cascading failures
 - ❌ **ИСПРАВЛЕНО**: Health check using localhost instead of 0.0.0.0
+- ❌ **ИСПРАВЛЕНО**: EADDRINUSE port 3001 - добавлена проверка и очистка портов
 - ✅ **ДОБАВЛЕНО**: Optimized multi-stage build
 - ✅ **ДОБАВЛЕНО**: Proper .dockerignore
+- ✅ **ДОБАВЛЕНО**: Graceful shutdown с SIGTERM/SIGINT обработкой
+- ✅ **ДОБАВЛЕНО**: Port cleanup в backend/server.js
 
 ### 🌐 Nginx конфигурация
 - ✅ **ДОБАВЛЕНО**: Upstream configuration для failover
@@ -62,11 +65,22 @@ git push origin main
 ssh jaguar@45.12.238.107
 ```
 
-**Очистите старую конфигурацию:**
+**Полная очистка старой конфигурации:**
 ```bash
 cd /opt/jaguar-app
+
+# Принудительная остановка всех контейнеров и очистка портов
 sudo docker-compose down -v --remove-orphans
-sudo docker system prune -f
+sudo docker kill $(sudo docker ps -q) 2>/dev/null || true
+sudo docker rm $(sudo docker ps -aq) 2>/dev/null || true
+
+# Очистка Docker системы и кеша
+sudo docker system prune -af --volumes
+sudo docker network prune -f
+
+# Принудительно освобождаем порт 3001
+sudo kill -9 $(sudo lsof -ti:3001) 2>/dev/null || echo "Порт 3001 свободен"
+sudo netstat -tlnp | grep :3001 || echo "Порт 3001 действительно свободен"
 ```
 
 **Обновите код:**
@@ -133,10 +147,19 @@ cat backend/.env
 # Проверьте что порт свободен
 sudo netstat -tlnp | grep :3001
 
+# НОВОЕ: Если порт 3001 занят (EADDRINUSE)
+sudo kill -9 $(sudo lsof -ti:3001) 2>/dev/null || echo "Порт 3001 свободен"
+sudo docker-compose down --remove-orphans
+sudo docker kill $(sudo docker ps -q) 2>/dev/null || true
+
 # Перезапустите с принуждением
 sudo docker-compose down
 sudo docker-compose build --no-cache
 sudo docker-compose up -d
+
+# Если всё ещё не работает - полная очистка
+sudo docker system prune -af --volumes
+sudo systemctl restart docker
 ```
 
 ### Если Telegram webhook не работает:

@@ -20,6 +20,8 @@ services:
       - app_data:/app/backend/database
       - app_logs:/app/logs
     restart: on-failure:3
+    stop_signal: SIGTERM
+    stop_grace_period: 30s
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://0.0.0.0:3001/api/test', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
