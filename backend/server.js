@@ -83,6 +83,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// --- Обслуживание статических файлов ---
+// Serve static files from React build directory
+app.use(express.static(path.join(__dirname, '../dist')));
+
 // --- Регистрация маршрутов API ---
 app.use('/api/auth', authRoutes);
 app.use('/api/point-a', pointARoutes);
