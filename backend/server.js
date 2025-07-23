@@ -63,7 +63,7 @@ const limiter = rateLimit({
 });
 
 // --- Настройка Middleware (промежуточного ПО) ---
-app.use(helmet());
+// app.use(helmet());
 app.use(limiter);
 app.use(cors({
   origin: [
