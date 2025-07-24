@@ -3,7 +3,7 @@
 
 import { logger } from '../utils/logger.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Базовый класс для API ошибок
 class ApiError extends Error {

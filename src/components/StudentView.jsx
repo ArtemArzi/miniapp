@@ -176,9 +176,9 @@ const StudentView = () => {
             console.log('🔐 Токен тренера:', token ? token.substring(0, 50) + '...' : 'отсутствует')
             console.log('👤 Текущий пользователь:', user)
             console.log('🔍 localStorage содержимое:', localStorage.getItem('jaguar_token'))
-            console.log('📡 Запрос к API:', `http://localhost:3001/api/progress/latest/${studentId}`)
+            console.log('📡 Запрос к API:', `/api/progress/latest/${studentId}`)
             
-            const progressResponse = await fetch(`http://localhost:3001/api/progress/latest/${studentId}`, {
+            const progressResponse = await fetch(`/api/progress/latest/${studentId}`, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }
