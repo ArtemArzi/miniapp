@@ -143,6 +143,9 @@ class Database {
     
     // Выполняем миграции
     await this.runMigrations();
+    
+    // Создаем тестовых пользователей
+    await this.createTestUsers();
   }
 
   // Выполнение миграций базы данных
@@ -200,6 +203,55 @@ class Database {
         else resolve(rows);
       });
     });
+  }
+
+  // Создание тестовых пользователей
+  async createTestUsers() {
+    try {
+      console.log('👥 Проверка тестовых пользователей...');
+
+      // Проверяем есть ли уже пользователи в базе
+      const existingUsers = await this.all('SELECT COUNT(*) as count FROM users');
+      if (existingUsers[0].count > 0) {
+        console.log('✅ Пользователи уже существуют в базе данных');
+        return;
+      }
+
+      // Создаем тестовых пользователей
+      const testUsers = [
+        {
+          email: 'client@jaguar.club',
+          password: '123456',
+          name: 'Test Client',
+          role: 'client'
+        },
+        {
+          email: 'coach@jaguar.club', 
+          password: '123456',
+          name: 'Test Coach',
+          role: 'coach'
+        },
+        {
+          email: 'admin@jaguar.club',
+          password: 'admin123',
+          name: 'Test Admin',
+          role: 'admin'
+        }
+      ];
+
+      for (const user of testUsers) {
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        await this.run(
+          'INSERT INTO users (email, password_hash, name, role) VALUES (?, ?, ?, ?)',
+          [user.email, hashedPassword, user.name, user.role]
+        );
+        console.log(`✅ Создан тестовый пользователь: ${user.email} (${user.role})`);
+      }
+
+      console.log('✅ Все тестовые пользователи созданы успешно');
+    } catch (error) {
+      console.error('❌ Ошибка создания тестовых пользователей:', error);
+    }
   }
 
   // Закрытие соединения
