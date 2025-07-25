@@ -80,7 +80,7 @@ async function apiRequest(endpoint, options = {}) {
   
   // Создаем AbortController для timeout
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 секунд
+  const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 секунд для медленных операций
   config.signal = controller.signal;
   
   try {
