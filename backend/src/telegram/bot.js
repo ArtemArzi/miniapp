@@ -86,7 +86,21 @@ class JaguarTelegramBot {
   async setupWebhook(webhookUrl) {
     try {
       const result = await this.bot.setWebHook(webhookUrl);
+      
+      // Настраиваем Menu Button для Web App
+      const miniAppUrl = process.env.MINI_APP_URL || 'https://beauty-bot-ai-bot-n8n.ru';
+      await this.bot.setChatMenuButton({
+        menu_button: {
+          type: 'web_app',
+          text: '🥊 Открыть приложение',
+          web_app: {
+            url: miniAppUrl
+          }
+        }
+      });
+      
       console.log('✅ Webhook настроен:', webhookUrl);
+      console.log('✅ Menu Button настроен:', miniAppUrl);
       return result;
     } catch (error) {
       console.error('❌ Ошибка настройки webhook:', error.message);

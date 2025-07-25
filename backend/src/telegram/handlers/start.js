@@ -18,14 +18,16 @@ const handleStart = async (bot, msg) => {
     // URL Mini App (пока используем localhost, потом заменим на production URL)
     const miniAppUrl = process.env.MINI_APP_URL || 'http://localhost:5173';
     
-    // Опции сообщения с inline клавиатурой
+    // Опции сообщения с Web App кнопкой
     const options = {
       reply_markup: {
         inline_keyboard: [
           [
             {
               text: '🥊 Открыть Jaguar Fight Club',
-              url: miniAppUrl
+              web_app: {
+                url: miniAppUrl
+              }
             }
           ],
           [
@@ -35,7 +37,7 @@ const handleStart = async (bot, msg) => {
             },
             {
               text: '🔗 Прямая ссылка',
-              callback_data: 'app_link'
+              url: miniAppUrl
             }
           ]
         ]
