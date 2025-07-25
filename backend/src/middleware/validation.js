@@ -5,6 +5,13 @@ const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
+    console.error('❌ Validation errors:', {
+      url: req.originalUrl,
+      method: req.method,
+      body: req.body,
+      errors: errors.array()
+    });
+    
     return res.status(400).json({
       error: 'Ошибка валидации данных',
       details: errors.array().map(err => ({
@@ -15,6 +22,7 @@ const handleValidationErrors = (req, res, next) => {
     });
   }
   
+  console.log('✅ Validation passed for:', req.originalUrl);
   next();
 };
 
@@ -46,9 +54,7 @@ const validateRegister = [
   body('name')
     .trim()
     .isLength({ min: 2, max: 100 })
-    .withMessage('Имя должно содержать от 2 до 100 символов')
-    .matches(/^[а-яёa-z\s\-'\.]+$/i)
-    .withMessage('Имя может содержать буквы, пробелы, дефисы, апострофы и точки'),
+    .withMessage('Имя должно содержать от 2 до 100 символов'),
   
   body('role')
     .optional()
@@ -56,12 +62,12 @@ const validateRegister = [
     .withMessage('Роль может быть только client, coach или admin'),
     
   body('phone')
-    .optional()
+    .optional({ values: 'falsy' })
     .matches(/^\+?[1-9]\d{1,14}$/)
     .withMessage('Введите корректный номер телефона'),
     
   body('inviteCode')
-    .optional()
+    .optional({ values: 'falsy' })
     .trim()
     .isLength({ min: 1, max: 100 })
     .withMessage('Код приглашения должен содержать от 1 до 100 символов'),
@@ -136,7 +142,7 @@ const validateProfileUpdate = [
     .withMessage('Имя должно содержать от 2 до 100 символов'),
   
   body('phone')
-    .optional()
+    .optional({ values: 'falsy' })
     .matches(/^\+?[1-9]\d{1,14}$/)
     .withMessage('Введите корректный номер телефона'),
   
