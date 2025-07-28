@@ -2,17 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Mobile Navigation Styles */
+/* CSS Variables for Mobile UI */
+:root {
+  --mobile-nav-height: 4rem; /* 64px */
+  --mobile-nav-spacing: 1.5rem; /* 24px - raised from bottom */
+  --mobile-touch-target: 2.75rem; /* 44px minimum touch target */
+  --mobile-safe-area-bottom: max(env(safe-area-inset-bottom), 0px);
+  --mobile-nav-bottom-offset: max(var(--mobile-safe-area-bottom) + var(--mobile-nav-spacing), 1.5rem);
+  
+  /* Stage 3: Content scrolling variables */
+  --mobile-content-bottom: calc(var(--mobile-nav-height) + var(--mobile-nav-bottom-offset) + 1rem);
+  --mobile-scroll-padding: calc(var(--mobile-nav-height) + var(--mobile-safe-area-bottom) + 2rem);
+}
+
+/* Enhanced Mobile Navigation Styles */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Touch targets optimization */
+/* Mobile Navigation Bottom Positioning */
+.mobile-nav-bottom {
+  bottom: var(--mobile-nav-bottom-offset);
+}
+
+/* Safe Area Bottom Offset Utility */
+.bottom-safe-offset {
+  bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+}
+
+/* Enhanced Touch targets optimization */
 @media (pointer: coarse) {
   .touch-target {
-    min-height: 44px;
-    min-width: 44px;
+    min-height: var(--mobile-touch-target);
+    min-width: var(--mobile-touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+}
+
+/* Navigation item animation improvements */
+.nav-item {
+  transition: all 0.2s ease;
+  transform-origin: center;
+}
+
+.nav-item:hover {
+  transform: scale(1.05);
+}
+
+.nav-item:active {
+  transform: scale(0.95);
 }
 
 /* Mobile-first responsive design */
@@ -20,6 +60,20 @@
   .mobile-container {
     padding-left: 16px;
     padding-right: 16px;
+  }
+  
+  /* Stage 3: Scrollable content with proper bottom spacing */
+  .mobile-content-wrapper {
+    padding-bottom: var(--mobile-content-bottom);
+  }
+  
+  .mobile-scroll-container {
+    padding-bottom: var(--mobile-scroll-padding);
+    scroll-behavior: smooth;
+  }
+  
+  .mobile-nav-safe-spacing {
+    padding-bottom: calc(var(--mobile-nav-height) + var(--mobile-safe-area-bottom) + 1.5rem);
   }
   
   .mobile-card {
@@ -404,6 +458,109 @@ html {
   border-top: 1px solid var(--border);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+/* Keyboard-aware modal styles */
+.keyboard-aware-modal-container {
+  /* Ensure smooth transitions when keyboard appears/disappears */
+  transition: height 0.3s ease, padding-top 0.3s ease;
+}
+
+.keyboard-visible-modal {
+  /* Optimize for mobile keyboard visibility */
+  transform: none !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  
+  /* Ensure content is scrollable */
+  overflow-y: auto;
+  max-height: var(--keyboard-aware-height, 80vh);
+  
+  /* Add some padding to prevent content from being too close to edges */
+  margin: 1rem 0;
+}
+
+/* Dynamic viewport height support */
+:root {
+  /* Fallback for browsers that don't support dvh */
+  --vh: 1vh;
+  
+  /* CSS custom properties updated by useKeyboardAware hook */
+  --keyboard-aware-height: 100vh;
+  --keyboard-height: 0px;
+  --viewport-height: 100vh;
+}
+
+/* Dynamic viewport height utility classes */
+.h-screen-dynamic {
+  height: 100vh;
+  height: var(--keyboard-aware-height, 100vh);
+}
+
+.min-h-screen-dynamic {
+  min-height: 100vh;
+  min-height: var(--keyboard-aware-height, 100vh);
+}
+
+.max-h-screen-dynamic {
+  max-height: 100vh;
+  max-height: var(--keyboard-aware-height, 100vh);
+}
+
+/* Support for dvh (dynamic viewport height) where available */
+@supports (height: 100dvh) {
+  .h-screen-dynamic {
+    height: 100dvh;
+  }
+  
+  .min-h-screen-dynamic {
+    min-height: 100dvh;
+  }
+  
+  .max-h-screen-dynamic {
+    max-height: 100dvh;
+  }
+}
+
+/* Modal content scrolling improvements */
+.keyboard-aware-modal-container .scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* Improve form input handling in modals */
+.keyboard-visible-modal input,
+.keyboard-visible-modal textarea,
+.keyboard-visible-modal select {
+  /* Ensure inputs are visible when focused */
+  scroll-margin-top: 2rem;
+  scroll-margin-bottom: 2rem;
+}
+
+/* Smooth transitions for keyboard show/hide */
+@media (max-width: 768px) {
+  .keyboard-aware-modal-container {
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .keyboard-visible-modal {
+    /* Optimize animations for mobile */
+    animation: none;
+    
+    /* Better spacing on mobile */
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 12px;
+  }
+  
+  /* Reduce padding when keyboard is visible to maximize space */
+  .keyboard-visible-modal .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  .keyboard-visible-modal .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
 }
 
 /* Анимации для Telegram */

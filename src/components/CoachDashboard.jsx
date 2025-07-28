@@ -136,7 +136,7 @@ const CoachDashboard = () => {
     <div className="min-h-screen bg-background">
       <MobileNavigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>

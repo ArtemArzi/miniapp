@@ -162,7 +162,7 @@ const Progress = () => {
     return (
       <div className="min-h-screen bg-background">
         <MobileNavigation />
-        <div className="container mx-auto mobile-container py-4 md:py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container py-4 md:py-8">
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
@@ -281,7 +281,7 @@ const Progress = () => {
       <MobileNavigation />
       
       <PullToRefresh onRefresh={() => loadProgressData(true)} disabled={isLoading}>
-        <div className="container mx-auto mobile-container py-4 md:py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container py-4 md:py-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 md:mb-8">
           <div className="mb-4 md:mb-0">
@@ -584,7 +584,7 @@ const Progress = () => {
                           <span className="text-sm font-medium">Изменить прогресс</span>
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                      <DialogContent className="max-w-2xl scroll-smooth">
                         <DialogHeader>
                           <DialogTitle>Изменить прогресс</DialogTitle>
                           <DialogDescription>
@@ -592,7 +592,7 @@ const Progress = () => {
                           </DialogDescription>
                         </DialogHeader>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 gap-6 keyboard-visible-modal:gap-4 md:grid-cols-2 md:gap-4">
                           {/* Физические показатели */}
                           <div className="space-y-4">
                             <h3 className="font-medium text-lg">Физические показатели</h3>

@@ -202,7 +202,7 @@ const ClientDashboard = () => {
       <MobileNavigation />
       
       <PullToRefresh onRefresh={handleRefresh} disabled={isLoading}>
-        <div className="container mx-auto mobile-container py-4 md:py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container py-4 md:py-8">
           {/* Success Message */}
           {successMessage && (
             <div className="mb-4">

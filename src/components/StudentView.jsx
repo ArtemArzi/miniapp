@@ -400,7 +400,7 @@ const StudentView = () => {
     return (
       <div className="min-h-screen bg-background">
         <MobileNavigation />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
@@ -417,7 +417,7 @@ const StudentView = () => {
     return (
       <div className="min-h-screen bg-background">
         <MobileNavigation />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
           <div className="text-center">
             <AlertCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
             <h2 className="text-2xl font-bold mb-2">Студент не найден</h2>
@@ -436,7 +436,7 @@ const StudentView = () => {
     <div className="min-h-screen bg-background">
       <MobileNavigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="outline" onClick={() => navigate('/')}>

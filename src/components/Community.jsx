@@ -151,7 +151,7 @@ const Community = () => {
     return (
       <div className="min-h-screen bg-background">
         <MobileNavigation />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
           <Alert>
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
@@ -167,7 +167,7 @@ const Community = () => {
     <div className="min-h-screen bg-background">
       <MobileNavigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">Сообщество клуба</h1>
           <p className="text-muted-foreground">Знакомьтесь и налаживайте связи с единомышленниками</p>

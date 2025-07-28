@@ -36,8 +36,8 @@ const MobileNavigation = () => {
       </header>
 
       {/* Bottom Tab Bar для мобильных */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-area-pb">
-        <div className="flex justify-around items-center h-16 px-2">
+      <nav className="md:hidden fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border border-gray-200 rounded-t-2xl shadow-lg bottom-safe-offset">
+        <div className="flex justify-around items-center px-2" style={{ height: 'var(--mobile-nav-height)', paddingBottom: 'max(env(safe-area-inset-bottom), 0.5rem)' }}>
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = location.pathname === item.path
@@ -49,11 +49,12 @@ const MobileNavigation = () => {
                   hapticFeedback.selection()
                   navigate(item.path)
                 }}
-                className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-lg transition-colors min-w-[60px] ${
+                className={`flex flex-col items-center justify-center space-y-1 px-3 py-2 rounded-lg transition-colors touch-target nav-item ${
                   isActive 
                     ? 'text-orange-500 bg-orange-50' 
                     : 'text-gray-600 hover:text-orange-500 hover:bg-orange-50'
                 }`}
+                style={{ minHeight: 'var(--mobile-touch-target)', minWidth: 'var(--mobile-touch-target)' }}
               >
                 <div className="flex items-center justify-center w-6 h-6">
                   <Icon className="w-5 h-5" />
@@ -106,8 +107,8 @@ const MobileNavigation = () => {
         </div>
       </nav>
 
-      {/* Spacer для bottom navigation */}
-      <div className="md:hidden h-16" />
+      {/* Spacer для bottom navigation с учетом Safe Area */}
+      <div className="md:hidden" style={{ height: 'calc(var(--mobile-nav-height) + var(--mobile-nav-bottom-offset))' }} />
     </>
   )
 }

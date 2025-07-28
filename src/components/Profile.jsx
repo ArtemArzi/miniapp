@@ -195,7 +195,7 @@ const Profile = () => {
     return (
       <div className="min-h-screen bg-background">
         <MobileNavigation />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
@@ -211,7 +211,7 @@ const Profile = () => {
     <div className="min-h-screen bg-background">
       <MobileNavigation />
       
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold mb-2">Мой профиль</h1>
