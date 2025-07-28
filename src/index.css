@@ -7,7 +7,7 @@
   --mobile-nav-height: 4rem; /* 64px */
   --mobile-nav-spacing: 1.5rem; /* 24px - raised from bottom */
   --mobile-touch-target: 2.75rem; /* 44px minimum touch target */
-  --mobile-safe-area-bottom: max(env(safe-area-inset-bottom), 0px);
+  --mobile-safe-area-bottom: 0px; /* Safe Area отключен для совместимости с Telegram */
   --mobile-nav-bottom-offset: max(var(--mobile-safe-area-bottom) + var(--mobile-nav-spacing), 1.5rem);
   
   /* Stage 3: Content scrolling variables */
@@ -17,7 +17,7 @@
 
 /* Enhanced Mobile Navigation Styles */
 .safe-area-pb {
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 0px; /* Safe Area отключен для Telegram */
 }
 
 /* Mobile Navigation Bottom Positioning */
@@ -27,7 +27,7 @@
 
 /* Safe Area Bottom Offset Utility */
 .bottom-safe-offset {
-  bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+  bottom: 1.5rem; /* Safe Area отключен для Telegram */
 }
 
 /* Enhanced Touch targets optimization */
