@@ -104,7 +104,7 @@ nano backend/.env
 **Запустите приложение:**
 ```bash
 sudo docker-compose build --no-cache
-sudo docker-compose up -d
+
 ```
 
 **Проверьте статус:**
