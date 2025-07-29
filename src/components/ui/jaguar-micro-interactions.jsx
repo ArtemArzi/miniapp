@@ -4,13 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 // Floating Action Button with micro-interactions
-// interface JaguarFloatingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+/* interface JaguarFloatingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
   label?: string;
   variant?: "primary" | "secondary" | "accent" | "success";
   size?: "sm" | "md" | "lg";
   position?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
 }
+*/
 
 export const JaguarFloatingButton = ({
   icon,
@@ -104,12 +105,13 @@ export const JaguarFloatingButton = ({
 };
 
 // Interactive Card with hover effects
-// interface JaguarInteractiveCardProps extends React.HTMLAttributes<HTMLDivElement> {
+/* interface JaguarInteractiveCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   hoverScale?: number;
   clickScale?: number;
   shadowColor?: string;
 }
+*/
 
 export const JaguarInteractiveCard = ({
   children,
@@ -164,13 +166,14 @@ export const JaguarInteractiveCard = ({
 };
 
 // Bouncing Notification Dot
-// interface JaguarNotificationDotProps {
+/* interface JaguarNotificationDotProps {
   count?: number;
   variant?: "primary" | "secondary" | "accent" | "success";
   size?: "sm" | "md" | "lg";
   animate?: boolean;
   className?: string;
 }
+*/
 
 export const JaguarNotificationDot = ({
   count,
@@ -218,11 +221,12 @@ export const JaguarNotificationDot = ({
 };
 
 // Loading Dots Animation
-// interface JaguarLoadingDotsProps {
+/* interface JaguarLoadingDotsProps {
   variant?: "primary" | "secondary" | "accent" | "success";
   size?: "sm" | "md" | "lg";
   className?: string;
 }
+*/
 
 export const JaguarLoadingDots = ({
   variant = "primary",

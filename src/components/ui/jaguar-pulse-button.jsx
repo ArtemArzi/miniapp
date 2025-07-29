@@ -1,14 +1,15 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-// interface JaguarPulseButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+/* 
+interface JaguarPulseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   pulseColor?: string;
   duration?: string;
   variant?: "primary" | "secondary" | "accent" | "success";
   size?: "sm" | "md" | "lg";
   intensity?: "subtle" | "medium" | "strong";
 }
+*/
 
 const variantStyles = {
   primary: {
@@ -78,7 +79,7 @@ export const JaguarPulseButton = React.forwardRef(
           background: variantStyle.background,
           "--pulse-color": finalPulseColor,
           "--duration": duration,
-        }
+        }}
         {...props}
       >
         {/* Content */}

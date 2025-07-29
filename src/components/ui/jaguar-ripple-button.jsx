@@ -3,13 +3,14 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 
-// interface JaguarRippleButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+/* 
+interface JaguarRippleButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   rippleColor?: string;
   duration?: string;
   variant?: "primary" | "secondary" | "accent" | "success" | "outline";
   size?: "sm" | "md" | "lg";
 }
+*/
 
 const variantStyles = {
   primary: {

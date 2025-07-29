@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-// interface JaguarAnimatedCounterProps {
+/* interface JaguarAnimatedCounterProps {
   value: number;
   duration?: number;
   className?: string;
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
   size?: "sm" | "md" | "lg" | "xl";
   animate?: boolean;
 }
+*/
 
 const variantStyles = {
   primary: "text-[#FF6B35]",

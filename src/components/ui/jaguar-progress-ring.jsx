@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-// interface JaguarProgressRingProps {
+/* interface JaguarProgressRingProps {
   progress: number; // 0-100
   size?: number;
   strokeWidth?: number;
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
   duration?: number;
   variant?: "primary" | "secondary" | "accent" | "success";
 }
+*/
 
 const variantColors = {
   primary: "#FF6B35",
