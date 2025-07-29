@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { MouseEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // interface JaguarRippleButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -45,10 +45,7 @@ const sizeStyles = {
   lg: "px-8 py-4 text-lg min-h-[52px]"
 };
 
-export const JaguarRippleButton = React.forwardRef<
-  HTMLButtonElement,
-  JaguarRippleButtonProps
->(
+export const JaguarRippleButton = React.forwardRef(
   (
     {
       className,
@@ -62,19 +59,17 @@ export const JaguarRippleButton = React.forwardRef<
     },
     ref,
   ) => {
-    const [buttonRipples, setButtonRipples] = useState<
-      Array<{ x: number; y: number; size: number; key: number }>
-    >([]);
+    const [buttonRipples, setButtonRipples] = useState([]);
 
     const variantStyle = variantStyles[variant];
     const finalRippleColor = rippleColor || variantStyle.rippleColor;
 
-    const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (event) => {
       createRipple(event);
       onClick?.(event);
     };
 
-    const createRipple = (event: MouseEvent<HTMLButtonElement>) => {
+    const createRipple = (event) => {
       const button = event.currentTarget;
       const rect = button.getBoundingClientRect();
       const size = Math.max(rect.width, rect.height);

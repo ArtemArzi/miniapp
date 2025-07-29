@@ -60,7 +60,7 @@ export const JaguarShimmerButton = React.forwardRef(
             "--speed": shimmerDuration,
             "--cut": shimmerSize,
             "--bg": finalBackground,
-          } as CSSProperties
+          }
         }
         className={cn(
           "group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border-0 font-medium [background:var(--bg)] [border-radius:var(--radius)] transition-all duration-300 ease-in-out",

@@ -45,10 +45,7 @@ const intensityStyles = {
   strong: "animate-pulse-strong"
 };
 
-export const JaguarPulseButton = React.forwardRef<
-  HTMLButtonElement,
-  JaguarPulseButtonProps
->(
+export const JaguarPulseButton = React.forwardRef(
   (
     {
       className,
@@ -81,7 +78,7 @@ export const JaguarPulseButton = React.forwardRef<
           background: variantStyle.background,
           "--pulse-color": finalPulseColor,
           "--duration": duration,
-        } as React.CSSProperties}
+        }
         {...props}
       >
         {/* Content */}
