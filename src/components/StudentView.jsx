@@ -57,6 +57,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox'
 import { ArrowLeft, MessageSquare, Target, TrendingUp, Calendar, Send, Loader2, AlertCircle, Dumbbell, Plus } from 'lucide-react'
 import MobileNavigation from './MobileNavigation'
+import { JaguarShimmerButton, JaguarProgressRing, JaguarRippleButton, JaguarAnimatedCounter, JaguarPulseButton } from '@/components/ui'
 
 const StudentView = () => {
   const { studentId } = useParams()
@@ -437,19 +438,21 @@ const StudentView = () => {
       <MobileNavigation />
       
       <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="outline" onClick={() => navigate('/')}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Назад к ученикам
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">{student.name}</h1>
-            <p className="text-muted-foreground">{student.email}</p>
+        {/* Header - мобильная адаптация */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center gap-2 sm:gap-4 mb-4">
+            <Button variant="outline" onClick={() => navigate('/')} size="sm" className="flex-shrink-0">
+              <ArrowLeft className="w-4 h-4 sm:mr-2" />
+              <span className="hidden sm:inline">Назад к ученикам</span>
+            </Button>
+            <Badge className={`${getStatusColor(student.grade?.name || student.status)} flex-shrink-0`}>
+              {student.grade?.emoji || ''} {student.grade?.name || student.status}
+            </Badge>
           </div>
-          <Badge className={getStatusColor(student.grade?.name || student.status)}>
-            {student.grade?.emoji || ''} {student.grade?.name || student.status}
-          </Badge>
+          <div>
+            <h1 className="text-xl sm:text-3xl font-bold">{student.name}</h1>
+            <p className="text-muted-foreground text-sm sm:text-base">{student.email}</p>
+          </div>
         </div>
         
         {/* Сообщения об ошибках и успехе */}
@@ -467,9 +470,9 @@ const StudentView = () => {
           </Alert>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Student Goal */}
             <Card>
               <CardHeader>
@@ -488,24 +491,34 @@ const StudentView = () => {
                     <span className="text-sm font-medium">Прогресс к цели</span>
                     <span className="text-sm font-medium">{pointAData?.currentProgress || 0}%</span>
                   </div>
-                  <Progress value={pointAData?.currentProgress || 0} className="h-2" />
+                  <div className="relative">
+                    <Progress value={pointAData?.currentProgress || 0} className="h-2" />
+                    <div className="flex justify-center mt-2">
+                      <JaguarProgressRing 
+                        progress={pointAData?.currentProgress || 0}
+                        size={60}
+                        strokeWidth={4}
+                        className="absolute -top-8"
+                      />
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Progress Comparison */}
+            {/* Progress Comparison - мобильная адаптация */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
                   Прогресс показателей
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm">
                   Сравнение "Точки А" с текущими результатами
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   {[
                     { label: 'Вес', pointA: pointAData?.pointA?.weight || 75, current: pointAData?.current?.weight || 73, unit: 'кг', better: 'lower' },
                     { label: 'Жир', pointA: pointAData?.pointA?.bodyFatPercentage || 18, current: pointAData?.current?.bodyFatPercentage || 15, unit: '%', better: 'lower' },
@@ -521,18 +534,22 @@ const StudentView = () => {
                       : metric.current < metric.pointA
                     
                     return (
-                      <div key={metric.label} className="p-3 border rounded-lg">
-                        <div className="flex justify-between items-center mb-2">
-                          <span className="text-sm font-medium">{metric.label}</span>
-                          {isImproved && <Badge variant="secondary" className="text-xs">Улучшение</Badge>}
+                      <div key={metric.label} className="p-2 sm:p-3 border rounded-lg">
+                        <div className="flex justify-between items-center mb-1 sm:mb-2">
+                          <span className="text-xs sm:text-sm font-medium">{metric.label}</span>
+                          {isImproved && <Badge variant="secondary" className="text-xs py-0 px-1">✓</Badge>}
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">
-                            Было: {metric.pointA}{metric.unit}
-                          </span>
-                          <span className={`font-medium ${isImproved ? 'text-green-600' : 'text-muted-foreground'}`}>
-                            Сейчас: {metric.current}{metric.unit}
-                          </span>
+                        <div className="space-y-1">
+                          <div className="flex justify-between text-xs sm:text-sm">
+                            <span className="text-muted-foreground">Было:</span>
+                            <span>{metric.pointA}{metric.unit}</span>
+                          </div>
+                          <div className="flex justify-between text-xs sm:text-sm">
+                            <span className="text-muted-foreground">Сейчас:</span>
+                            <span className={`font-medium ${isImproved ? 'text-green-600' : 'text-muted-foreground'}`}>
+                              {metric.current}{metric.unit}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     )
@@ -541,31 +558,35 @@ const StudentView = () => {
               </CardContent>
             </Card>
 
-            {/* Add New Comment */}
+            {/* Add New Comment - мобильная адаптация */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                   Добавить комментарий
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm">
                   Оставьте обратную связь после тренировки
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 <Textarea
                   placeholder="Опишите как прошла тренировка, что удалось хорошо, над чем стоит поработать..."
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  rows={4}
+                  rows={3}
+                  className="text-sm"
                 />
-                <div className="flex justify-between items-center">
-                  <p className="text-sm text-muted-foreground">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+                  <p className="text-xs sm:text-sm text-muted-foreground">
                     Ученик получит уведомление о новом комментарии
                   </p>
-                  <Button 
+                  <JaguarShimmerButton
+                    variant="primary"
+                    size="sm"
                     onClick={handleAddComment} 
                     disabled={!newComment.trim() || isSavingComment}
+                    className="w-full sm:w-auto"
                   >
                     {isSavingComment ? (
                       <>
@@ -578,37 +599,38 @@ const StudentView = () => {
                         Отправить
                       </>
                     )}
-                  </Button>
+                  </JaguarShimmerButton>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Add Training Form */}
+            {/* Add Training Form - мобильная адаптация */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Dumbbell className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                  <Dumbbell className="w-4 h-4 sm:w-5 sm:h-5" />
                   Добавить тренировку
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-sm">
                   Отметьте проведенную тренировку и оставьте комментарий
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {!showTrainingForm ? (
-                  <Button 
+                  <JaguarPulseButton
+                    variant="success"
+                    size="sm"
                     onClick={() => setShowTrainingForm(true)}
                     className="w-full"
-                    variant="outline"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Добавить тренировку
-                  </Button>
+                  </JaguarPulseButton>
                 ) : (
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {/* Дата тренировки */}
-                    <div className="space-y-2">
-                      <Label htmlFor="training-date">Дата тренировки</Label>
+                    <div className="space-y-1 sm:space-y-2">
+                      <Label htmlFor="training-date" className="text-sm">Дата тренировки</Label>
                       <Input
                         id="training-date"
                         type="date"
@@ -617,12 +639,13 @@ const StudentView = () => {
                           ...prev,
                           trainingDate: e.target.value
                         }))}
+                        className="text-sm h-9"
                       />
                     </div>
 
                     {/* Тип тренировки */}
-                    <div className="space-y-2">
-                      <Label htmlFor="training-type">Тип тренировки</Label>
+                    <div className="space-y-1 sm:space-y-2">
+                      <Label htmlFor="training-type" className="text-sm">Тип тренировки</Label>
                       <Select
                         value={trainingForm.trainingType}
                         onValueChange={(value) => setTrainingForm(prev => ({
@@ -630,7 +653,7 @@ const StudentView = () => {
                           trainingType: value
                         }))}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="h-9">
                           <SelectValue placeholder="Выберите тип тренировки" />
                         </SelectTrigger>
                         <SelectContent>
@@ -652,12 +675,14 @@ const StudentView = () => {
                           attended: checked
                         }))}
                       />
-                      <Label htmlFor="attended">Клиент присутствовал на тренировке</Label>
+                      <Label htmlFor="attended" className="text-sm leading-relaxed">Клиент присутствовал на тренировке</Label>
                     </div>
 
                     {/* Кнопки действий */}
-                    <div className="flex gap-2">
-                      <Button 
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <JaguarShimmerButton
+                        variant="success"
+                        size="sm"
                         onClick={handleAddTraining}
                         disabled={isSavingTraining}
                         className="flex-1"
@@ -673,14 +698,16 @@ const StudentView = () => {
                             Сохранить тренировку
                           </>
                         )}
-                      </Button>
-                      <Button 
-                        variant="outline" 
+                      </JaguarShimmerButton>
+                      <JaguarRippleButton
+                        variant="secondary"
+                        size="sm"
                         onClick={() => setShowTrainingForm(false)}
                         disabled={isSavingTraining}
+                        className="sm:w-auto"
                       >
                         Отмена
-                      </Button>
+                      </JaguarRippleButton>
                     </div>
                   </div>
                 )}
@@ -688,27 +715,30 @@ const StudentView = () => {
             </Card>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Student Stats */}
+          {/* Sidebar - мобильная адаптация */}
+          <div className="space-y-4 sm:space-y-6">
+            {/* Student Stats - мобильная адаптация */}
             <Card>
               <CardHeader>
-                <CardTitle>Статистика</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">Статистика</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Всего тренировок</span>
-                  <span className="font-medium">{student.totalTrainings}</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">Всего тренировок</span>
+                  <JaguarAnimatedCounter 
+                    value={student.totalTrainings} 
+                    className="font-medium text-sm sm:text-base"
+                  />
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Последняя тренировка</span>
-                  <span className="font-medium">{student.lastTraining}</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">Последняя тренировка</span>
+                  <span className="font-medium text-sm sm:text-base">{student.lastTraining}</span>
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">В клубе с</span>
-                  <span className="font-medium">
+                  <span className="text-xs sm:text-sm text-muted-foreground">В клубе с</span>
+                  <span className="font-medium text-sm sm:text-base">
                     {student.joinDate ? 
                       new Date(student.joinDate).toLocaleDateString('ru-RU') : 
                       'Не указано'
@@ -717,52 +747,52 @@ const StudentView = () => {
                 </div>
                 
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Статус</span>
-                  <Badge className={getStatusColor(student.grade?.name || student.status)}>
+                  <span className="text-xs sm:text-sm text-muted-foreground">Статус</span>
+                  <Badge className={`${getStatusColor(student.grade?.name || student.status)} text-xs`}>
                     {student.grade?.emoji || ''} {student.grade?.name || student.status}
                   </Badge>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Comments History */}
+            {/* Comments History - мобильная адаптация */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
+                <div className="space-y-2">
+                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                     История комментариев
-                  </div>
+                  </CardTitle>
                   {commentsPagination && commentsPagination.total > 3 && (
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={toggleShowAllComments}
-                      className="text-xs"
+                      className="text-xs w-full sm:w-auto justify-start sm:justify-center"
                     >
                       {showAllComments ? 'Показать последние 3' : `Показать все (${commentsPagination.total})`}
                     </Button>
                   )}
-                </CardTitle>
+                </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3 sm:space-y-4">
                 {comments.length === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-4">
+                  <p className="text-xs sm:text-sm text-muted-foreground text-center py-4">
                     Комментариев пока нет
                   </p>
                 ) : (
                   comments.map((comment) => (
-                    <div key={comment.id} className="border-l-4 border-primary pl-4 pb-4">
-                      <div className="flex justify-between items-start mb-2">
+                    <div key={comment.id} className="border-l-2 sm:border-l-4 border-primary pl-2 sm:pl-4 pb-3 sm:pb-4">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-2 mb-1 sm:mb-2">
                         <span className="text-xs text-muted-foreground">
                           {new Date(comment.createdAt || comment.date).toLocaleDateString('ru-RU')}
                         </span>
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-xs py-0 px-1 self-start">
                           {comment.coachName || comment.trainer || 'Тренер'}
                         </Badge>
                       </div>
-                      <h4 className="font-medium text-sm mb-1">{comment.trainingType || comment.training || 'Тренировка'}</h4>
-                      <p className="text-sm text-muted-foreground">{comment.comment}</p>
+                      <h4 className="font-medium text-xs sm:text-sm mb-1">{comment.trainingType || comment.training || 'Тренировка'}</h4>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{comment.comment}</p>
                     </div>
                   ))
                 )}

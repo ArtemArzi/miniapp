@@ -589,3 +589,621 @@ html {
   background: #1a1a1a;
   border-color: #404040;
 }
+
+/* JAGUAR FIGHT CLUB Animation Styles */
+
+/* Shimmer effect animations */
+@keyframes shimmer-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes spin-around {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Ripple effect animation */
+@keyframes rippling {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Enhanced pulse animations */
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+@keyframes pulse-strong {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.8;
+  }
+}
+
+/* Floating button animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+/* Progress ring animations */
+@keyframes progress-fill {
+  0% {
+    stroke-dashoffset: 100%;
+  }
+  100% {
+    stroke-dashoffset: var(--progress-offset);
+  }
+}
+
+/* Bounce variations */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Fade variations */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale animations */
+@keyframes scale-in {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* Rotation animations */
+@keyframes rotate-in {
+  0% {
+    transform: rotate(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Slide animations */
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Utility animation classes */
+.animate-shimmer-slide {
+  animation: shimmer-slide 3s linear infinite;
+}
+
+.animate-spin-around {
+  animation: spin-around 2s linear infinite;
+}
+
+.animate-rippling {
+  animation: rippling 0.6s linear;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+.animate-pulse-strong {
+  animation: pulse-strong 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s ease-out;
+}
+
+.animate-bounce-out {
+  animation: bounce-out 0.6s ease-in;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.6s ease-out;
+}
+
+.animate-fade-in-left {
+  animation: fade-in-left 0.6s ease-out;
+}
+
+.animate-fade-in-right {
+  animation: fade-in-right 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out;
+}
+
+.animate-scale-out {
+  animation: scale-out 0.4s ease-in;
+}
+
+.animate-rotate-in {
+  animation: rotate-in 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out;
+}
+
+/* Jaguar-specific gradient backgrounds */
+.jaguar-gradient-primary {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+}
+
+.jaguar-gradient-secondary {
+  background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+}
+
+.jaguar-gradient-accent {
+  background: linear-gradient(135deg, #FFD93D 0%, #FFC107 100%);
+}
+
+.jaguar-gradient-success {
+  background: linear-gradient(135deg, #6BCF7F 0%, #4CAF50 100%);
+}
+
+/* Jaguar glow effects */
+.jaguar-glow-primary {
+  box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+}
+
+.jaguar-glow-secondary {
+  box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+
+.jaguar-glow-accent {
+  box-shadow: 0 0 20px rgba(255, 217, 61, 0.3);
+}
+
+.jaguar-glow-success {
+  box-shadow: 0 0 20px rgba(107, 207, 127, 0.3);
+}
+
+/* Специальные стили для карточек студентов */
+.student-card {
+  transition: all 0.2s ease;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.student-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .student-card {
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .student-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: none;
+  }
+}
+
+/* Мобильные метрики прогресса */
+.progress-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .progress-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .progress-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Стили для компактных карточек */
+.compact-card {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 640px) {
+  .compact-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+}
+
+/* Улучшенные стили для форм на мобильных */
+.mobile-form-container {
+  max-width: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .mobile-form-container {
+    padding: 1.5rem;
+  }
+}
+
+.mobile-form-field {
+  margin-bottom: 1rem;
+}
+
+.mobile-form-field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.mobile-form-field input,
+.mobile-form-field textarea,
+.mobile-form-field select {
+  min-height: 40px;
+  font-size: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .mobile-form-field input,
+  .mobile-form-field textarea,
+  .mobile-form-field select {
+    min-height: 44px;
+  }
+}
+
+/* Стили для статистических карточек */
+.stats-card {
+  padding: 0.75rem;
+  border-radius: 8px;
+  text-align: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+@media (min-width: 640px) {
+  .stats-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+}
+
+.stats-card-title {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: var(--muted-foreground);
+  margin-bottom: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .stats-card-title {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.stats-card-value {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+@media (min-width: 640px) {
+  .stats-card-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Адаптивная сетка для мобильных */
+.mobile-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.mobile-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .mobile-grid-2 {
+    gap: 1rem;
+  }
+  
+  .mobile-grid-1 {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-grid-2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Анимация появления карточек */
+.stagger-animation > * {
+  animation: slideInUp 0.4s ease-out;
+  animation-fill-mode: both;
+}
+
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.15s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.25s; }
+.stagger-animation > *:nth-child(5) { animation-delay: 0.3s; }
+
+/* Улучшенные кнопки для мобильных */
+.mobile-button {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.mobile-button:active {
+  transform: scale(0.98);
+}
+
+.mobile-button-sm {
+  min-height: 36px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+/* Оптимизация текста для мобильных экранов */
+.mobile-text-balance {
+  text-wrap: balance;
+}
+
+.mobile-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-ellipsis-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Стили для progress bars */
+.mobile-progress {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--muted);
+  overflow: hidden;
+}
+
+.mobile-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 4px;
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+.mobile-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 10px 10px;
+  animation: progressStripe 1s linear infinite;
+}
+
+@keyframes progressStripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 10px 0;
+  }
+}
+
+/* Улучшения для доступности */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in,
+  .slide-in,
+  .slide-in-up,
+  .pulse-animation,
+  .bounce-animation,
+  .shimmer-animation,
+  .stagger-animation > *,
+  .progress-fill,
+  .mobile-progress-fill::after {
+    animation: none;
+    transition: none;
+  }
+  
+  .interactive-hover:hover,
+  .card-animation:hover,
+  .student-card:hover {
+    transform: none;
+  }
+}

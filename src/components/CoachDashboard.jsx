@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Search, User, MessageSquare, TrendingUp, LogOut, Loader2, AlertCircle, RefreshCw } from 'lucide-react'
 import MobileNavigation from './MobileNavigation'
+import { JaguarShimmerButton, JaguarProgressRing, JaguarRippleButton } from '@/components/ui'
 
 const CoachDashboard = () => {
   const { user, logout } = useAuth()
@@ -137,25 +138,34 @@ const CoachDashboard = () => {
       <MobileNavigation />
       
       <div className="container mx-auto mobile-container mobile-scroll-container px-4 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Панель тренера</h1>
-            <p className="text-muted-foreground">Добро пожаловать, {user?.name}</p>
-          </div>
-          <div className="flex space-x-2">
-            <Button 
-              variant="outline" 
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-            >
-              <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
-              Обновить
-            </Button>
-            <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="w-4 h-4 mr-2" />
-              Выйти
-            </Button>
+        {/* Header - мобильная адаптация */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold">Панель тренера</h1>
+              <p className="text-muted-foreground text-sm sm:text-base">Добро пожаловать, {user?.name}</p>
+            </div>
+            <div className="flex gap-2 sm:space-x-2">
+              <JaguarRippleButton
+                variant="secondary"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="flex-1 sm:flex-none"
+              >
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''} sm:mr-2`} />
+                <span className="hidden sm:inline">Обновить</span>
+              </JaguarRippleButton>
+              <JaguarRippleButton
+                variant="accent"
+                size="sm"
+                onClick={handleLogout}
+                className="flex-1 sm:flex-none"
+              >
+                <LogOut className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Выйти</span>
+              </JaguarRippleButton>
+            </div>
           </div>
         </div>
 
@@ -185,50 +195,50 @@ const CoachDashboard = () => {
           </div>
         )}
 
-        {/* Stats Overview */}
+        {/* Stats Overview - мобильная адаптация */}
         {!isLoading && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Всего учеников</CardTitle>
-                <User className="h-4 w-4 text-muted-foreground" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <Card className="p-3 sm:p-4">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-0">
+                <CardTitle className="text-xs sm:text-sm font-medium leading-tight">Всего учеников</CardTitle>
+                <User className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{students.length}</div>
+              <CardContent className="p-0 pt-1">
+                <div className="text-lg sm:text-2xl font-bold">{students.length}</div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Активных сегодня</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <Card className="p-3 sm:p-4">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-0">
+                <CardTitle className="text-xs sm:text-sm font-medium leading-tight">Активных сегодня</CardTitle>
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
+              <CardContent className="p-0 pt-1">
+                <div className="text-lg sm:text-2xl font-bold">
                   {students.filter(s => s.lastTraining === 'Сегодня').length}
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Требуют внимания</CardTitle>
-                <MessageSquare className="h-4 w-4 text-muted-foreground" />
+            <Card className="p-3 sm:p-4">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-0">
+                <CardTitle className="text-xs sm:text-sm font-medium leading-tight">Требуют внимания</CardTitle>
+                <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
+              <CardContent className="p-0 pt-1">
+                <div className="text-lg sm:text-2xl font-bold">
                   {students.filter(s => s.hasUnreadComments || !s.hasCompletedPointA).length}
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Средний прогресс</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <Card className="p-3 sm:p-4">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 sm:pb-2 p-0">
+                <CardTitle className="text-xs sm:text-sm font-medium leading-tight">Средний прогресс</CardTitle>
+                <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
+              <CardContent className="p-0 pt-1">
+                <div className="text-lg sm:text-2xl font-bold">
                   {students.length > 0 ? Math.round(students.reduce((acc, s) => acc + s.progress, 0) / students.length) : 0}%
                 </div>
               </CardContent>
@@ -240,20 +250,20 @@ const CoachDashboard = () => {
         {!isLoading && !error && (
           <Card>
             <CardHeader>
-              <div className="flex justify-between items-center">
+              <div className="space-y-4">
                 <div>
-                  <CardTitle>Ваши ученики ({students.length})</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-lg sm:text-xl">Ваши ученики ({students.length})</CardTitle>
+                  <CardDescription className="text-sm">
                     Управляйте прогрессом и оставляйте комментарии
                   </CardDescription>
                 </div>
-                <div className="relative w-64">
+                <div className="relative w-full">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                   <Input
                     placeholder="Поиск учеников..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 w-full"
                   />
                 </div>
               </div>
@@ -273,71 +283,133 @@ const CoachDashboard = () => {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {filteredStudents.map((student) => (
                     <div
                       key={student.id}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                      className="p-3 sm:p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                     >
-                      <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center relative">
-                          <User className="w-5 h-5 text-primary" />
-                          {!student.hasCompletedPointA && (
-                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-500 rounded-full border-2 border-white" 
-                                 title="Не заполнена анкета 'Точка А'" />
-                          )}
-                        </div>
-                        <div>
-                          <h3 className="font-medium flex items-center space-x-2">
-                            <span>{student.name}</span>
-                            {student.statusEmoji && (
-                              <span className="text-lg">{student.statusEmoji}</span>
-                            )}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">{student.email}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-4">
-                        <div className="text-center">
-                          <p className="text-sm font-medium">{student.totalTrainings}</p>
-                          <p className="text-xs text-muted-foreground">тренировок</p>
-                        </div>
-
-                        <div className="text-center min-w-[80px]">
-                          <p className="text-sm font-medium">{student.lastTraining}</p>
-                          <p className="text-xs text-muted-foreground">последняя</p>
-                        </div>
-
-                        <div className="text-center min-w-[60px]">
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className="bg-primary h-2 rounded-full" 
-                              style={{ width: `${student.progress}%` }}
-                            ></div>
+                      {/* Мобильная версия - вертикальная компоновка */}
+                      <div className="block sm:hidden">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center relative flex-shrink-0">
+                              <User className="w-4 h-4 text-primary" />
+                              {!student.hasCompletedPointA && (
+                                <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full border border-white" 
+                                     title="Не заполнена анкета 'Точка А'" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-medium text-sm flex items-center space-x-1 truncate">
+                                <span className="truncate">{student.name}</span>
+                                {student.statusEmoji && (
+                                  <span className="text-base flex-shrink-0">{student.statusEmoji}</span>
+                                )}
+                              </h3>
+                              <p className="text-xs text-muted-foreground truncate">{student.email}</p>
+                            </div>
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1">{student.progress}%</p>
-                        </div>
-
-                        <Badge className={getStatusColor(student.status)}>
-                          {student.status}
-                        </Badge>
-
-                        <div className="flex items-center space-x-2">
                           {student.hasUnreadComments && (
                             <div className="flex items-center">
                               <div className="w-2 h-2 bg-red-500 rounded-full mr-1"></div>
                               <span className="text-xs text-red-600">{student.unreadCommentsCount}</span>
                             </div>
                           )}
-
-                          <Button
-                            variant="outline"
+                        </div>
+                        
+                        <div className="grid grid-cols-3 gap-2 mb-3 text-center">
+                          <div>
+                            <p className="text-sm font-medium">{student.totalTrainings}</p>
+                            <p className="text-xs text-muted-foreground">тренировок</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{student.lastTraining}</p>
+                            <p className="text-xs text-muted-foreground">последняя</p>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{student.progress}%</p>
+                            <p className="text-xs text-muted-foreground">прогресс</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between">
+                          <Badge className={`${getStatusColor(student.status)} text-xs px-2 py-1`}>
+                            {student.status}
+                          </Badge>
+                          <JaguarShimmerButton
+                            variant="primary"
                             size="sm"
                             onClick={() => navigate(`/student/${student.id}`)}
+                            className="text-xs px-3 py-1 h-8"
                           >
                             Открыть
-                          </Button>
+                          </JaguarShimmerButton>
+                        </div>
+                      </div>
+
+                      {/* Десктопная версия - горизонтальная компоновка */}
+                      <div className="hidden sm:flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center relative">
+                            <User className="w-5 h-5 text-primary" />
+                            {!student.hasCompletedPointA && (
+                              <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-500 rounded-full border-2 border-white" 
+                                   title="Не заполнена анкета 'Точка А'" />
+                            )}
+                          </div>
+                          <div>
+                            <h3 className="font-medium flex items-center space-x-2">
+                              <span>{student.name}</span>
+                              {student.statusEmoji && (
+                                <span className="text-lg">{student.statusEmoji}</span>
+                              )}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">{student.email}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-4">
+                          <div className="text-center">
+                            <p className="text-sm font-medium">{student.totalTrainings}</p>
+                            <p className="text-xs text-muted-foreground">тренировок</p>
+                          </div>
+
+                          <div className="text-center min-w-[80px]">
+                            <p className="text-sm font-medium">{student.lastTraining}</p>
+                            <p className="text-xs text-muted-foreground">последняя</p>
+                          </div>
+
+                          <div className="text-center min-w-[60px]">
+                            <div className="w-full bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-primary h-2 rounded-full" 
+                                style={{ width: `${student.progress}%` }}
+                              ></div>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">{student.progress}%</p>
+                          </div>
+
+                          <Badge className={getStatusColor(student.status)}>
+                            {student.status}
+                          </Badge>
+
+                          <div className="flex items-center space-x-2">
+                            {student.hasUnreadComments && (
+                              <div className="flex items-center">
+                                <div className="w-2 h-2 bg-red-500 rounded-full mr-1"></div>
+                                <span className="text-xs text-red-600">{student.unreadCommentsCount}</span>
+                              </div>
+                            )}
+
+                            <JaguarShimmerButton
+                              variant="primary"
+                              size="sm"
+                              onClick={() => navigate(`/student/${student.id}`)}
+                            >
+                              Открыть
+                            </JaguarShimmerButton>
+                          </div>
                         </div>
                       </div>
                     </div>
