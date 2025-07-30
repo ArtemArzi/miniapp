@@ -13,12 +13,12 @@ import { TrendingUp, MessageSquare, Target, Calendar, Loader2, AlertCircle, Refr
 import MobileNavigation from './MobileNavigation'
 import PullToRefresh from './PullToRefresh'
 // Magic UI imports
-import { JaguarShimmerButton } from './ui/jaguar-shimmer-button'
-import { JaguarRippleButton } from './ui/jaguar-ripple-button'
+// import { JaguarShimmerButton } from './ui/jaguar-shimmer-button'
+// import { JaguarRippleButton } from './ui/jaguar-ripple-button'
 import { JaguarProgressRing } from './ui/jaguar-progress-ring'
 import { JaguarAnimatedCounter } from './ui/jaguar-animated-counter'
 import { JaguarInteractiveCard, JaguarNotificationDot } from './ui/jaguar-micro-interactions'
-import { TextAnimate } from './ui/jaguar-text-animate'
+// import { TextAnimate } from './ui/jaguar-text-animate'
 import { NumberTicker } from './ui/jaguar-number-ticker'
 
 const Progress = () => {
@@ -293,16 +293,12 @@ const Progress = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 md:mb-8">
           <div className="mb-4 md:mb-0">
-            <TextAnimate 
-              animation="slideUp" 
-              by="word" 
-              className="text-2xl md:text-3xl font-bold mb-2"
-            >
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">
               Мой прогресс
-            </TextAnimate>
+            </h1>
             <p className="text-muted-foreground text-sm md:text-base">Отслеживайте свой путь от "Точки А" к цели</p>
           </div>
-          <JaguarRippleButton 
+          <Button 
             variant="outline" 
             onClick={handleRefresh}
             disabled={isRefreshing}
@@ -310,7 +306,7 @@ const Progress = () => {
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
             <span className="text-sm">Обновить</span>
-          </JaguarRippleButton>
+          </Button>
         </div>
 
         {/* Error Alert */}
@@ -366,9 +362,9 @@ const Progress = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Target className="w-5 h-5" />
-                    <TextAnimate animation="blurIn" by="word" className="">
+                    <span>
                       Общий прогресс
-                    </TextAnimate>
+                    </span>
                   </CardTitle>
                   <CardDescription>
                     Ваш путь от "Точки А" к поставленной цели
@@ -420,13 +416,9 @@ const Progress = () => {
                           <Target className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                          <TextAnimate 
-                            animation="blurInUp" 
-                            by="word" 
-                            className="text-lg font-bold text-amber-900"
-                          >
+                          <div className="text-lg font-bold text-amber-900">
                             🎯 Ваша цель "Точка Б"
-                          </TextAnimate>
+                          </div>
                           <p className="text-xs text-amber-700 font-medium">К чему вы стремитесь</p>
                         </div>
                       </div>
@@ -453,9 +445,9 @@ const Progress = () => {
               <JaguarInteractiveCard className="border-blue-200/50 bg-gradient-to-br from-blue-50/50 to-indigo-50/50">
                 <CardHeader>
                   <CardTitle>
-                    <TextAnimate animation="slideLeft" by="word">
+                    <div>
                       Детальные показатели
-                    </TextAnimate>
+                    </div>
                   </CardTitle>
                   <CardDescription>
                     Сравнение "Точки А" с текущими результатами
@@ -606,13 +598,13 @@ const Progress = () => {
                   <div className="mt-4">
                     <Dialog open={showProgressForm} onOpenChange={setShowProgressForm}>
                       <DialogTrigger asChild>
-                        <JaguarShimmerButton 
+                        <Button 
                           variant="outline" 
                           className="w-full justify-start touch-target min-h-[48px] bg-gradient-to-r from-blue-50 to-green-50 hover:from-blue-100 hover:to-green-100 border-blue-200 text-blue-800 hover:text-blue-900"
                         >
                           <Edit className="w-5 h-5 mr-3" />
                           <span className="text-sm font-medium">Изменить прогресс</span>
-                        </JaguarShimmerButton>
+                        </Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-2xl scroll-smooth">
                         <DialogHeader>
@@ -713,7 +705,7 @@ const Progress = () => {
                         </div>
 
                         <div className="flex gap-2 mt-6">
-                          <JaguarRippleButton 
+                          <Button 
                             onClick={handleUpdateProgress}
                             disabled={isSavingProgress}
                             className="flex-1"
@@ -729,14 +721,14 @@ const Progress = () => {
                                 Сохранить показатели
                               </>
                             )}
-                          </JaguarRippleButton>
-                          <JaguarRippleButton 
+                          </Button>
+                          <Button 
                             variant="outline" 
                             onClick={() => setShowProgressForm(false)}
                             disabled={isSavingProgress}
                           >
                             Отмена
-                          </JaguarRippleButton>
+                          </Button>
                         </div>
                       </DialogContent>
                     </Dialog>
@@ -752,22 +744,22 @@ const Progress = () => {
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <MessageSquare className="w-5 h-5" />
-                      <TextAnimate animation="fadeIn" by="word">
+                      <div>
                         История комментариев
-                      </TextAnimate>
+                      </div>
                       <JaguarNotificationDot>
                         (<NumberTicker value={comments.length} />)
                       </JaguarNotificationDot>
                     </div>
                     {commentsPagination && commentsPagination.total > 3 && (
-                      <JaguarRippleButton
+                      <Button
                         variant="ghost"
                         size="sm"
                         onClick={toggleShowAllComments}
                         className="text-xs"
                       >
                         {showAllComments ? 'Показать последние 3' : `Показать все (${commentsPagination.total})`}
-                      </JaguarRippleButton>
+                      </Button>
                     )}
                   </CardTitle>
                   <CardDescription>
@@ -784,14 +776,9 @@ const Progress = () => {
                             {formatCommentDate(comment.createdAt)}
                           </span>
                         </div>
-                        <TextAnimate 
-                          animation="slideUp" 
-                          by="word" 
-                          delay={index * 0.1}
-                          className="font-medium text-sm mb-2"
-                        >
+                        <div className="font-medium text-sm mb-2">
                           {comment.comment || comment.text}
-                        </TextAnimate>
+                        </div>
                         <p className="text-xs text-muted-foreground">
                           {comment.coachName || 'Тренер'}
                         </p>
@@ -813,9 +800,9 @@ const Progress = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="w-5 h-5" />
-                    <TextAnimate animation="scaleUp" by="word">
+                    <div>
                       🦁 Грейд JAGUAR
-                    </TextAnimate>
+                    </div>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -824,9 +811,9 @@ const Progress = () => {
                       <Badge className={`text-lg px-4 py-2 ${
                         dashboardData?.grade?.current?.color || 'bg-gray-100 text-gray-800'
                       }`}>
-                        <TextAnimate animation="blurIn" by="word">
+                        <div>
                           {dashboardData?.grade?.current?.emoji || '🥊'} {dashboardData?.grade?.current?.name || 'Новичок'}
-                        </TextAnimate>
+                        </div>
                       </Badge>
                       <p className="text-sm text-muted-foreground mt-2">
                         Текущий грейд (<NumberTicker value={dashboardData?.stats?.totalTrainings || 0} /> тренировок)

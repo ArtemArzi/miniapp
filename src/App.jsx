@@ -33,7 +33,12 @@ function AppRoutes() {
   }
 
   return (
-    <Router>
+    <Router
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true
+      }}
+    >
       <div className="min-h-screen bg-background">
         <SwipeNavigation disabled={!isAuthenticated || user?.role === 'coach'}>
           <Routes>
