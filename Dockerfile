@@ -1,22 +1,23 @@
 # --- Stage 1: Build Frontend ---
 FROM node:18-alpine AS build
 
-# Install security updates
-RUN apk update && apk upgrade && apk add --no-cache dumb-init
+# Install security updates and pnpm
+RUN apk update && apk upgrade && apk add --no-cache dumb-init && \
+    corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
 # Copy package files for better caching
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
 # Install ALL dependencies for build (including devDependencies)
-RUN npm ci && npm cache clean --force
+RUN pnpm install --frozen-lockfile && pnpm store prune
 
 # Copy source code
 COPY . .
 
 # Build frontend
-RUN npm run build && rm -rf node_modules
+RUN pnpm run build && rm -rf node_modules
 
 # --- Stage 2: Production Runtime ---
 FROM node:18-alpine AS production
