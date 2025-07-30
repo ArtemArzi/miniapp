@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion, MotionProps, Variants } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ElementType, memo } from "react";
 
 /*
@@ -193,7 +193,7 @@ const TextAnimateBase = ({
   animation = "fadeIn",
   ...props
 }) => {
-  const MotionComponent = motion.create(Component);
+  const MotionComponent = motion[Component] || motion.div;
 
   let segments = [];
   switch (by) {

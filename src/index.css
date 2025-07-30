@@ -2,6 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Animation fallbacks for Motion issues */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes blur-in {
+  from { 
+    opacity: 0; 
+    filter: blur(10px); 
+  }
+  to { 
+    opacity: 1; 
+    filter: blur(0); 
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-blur-in {
+  animation: blur-in 0.3s ease-out;
+}
+
 /* CSS Variables for Mobile UI */
 :root {
   --mobile-nav-height: 4rem; /* 64px */

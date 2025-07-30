@@ -391,11 +391,11 @@ const Progress = () => {
                     </div>
                     <div className="flex justify-center my-4">
                       <JaguarProgressRing 
-                        value={Math.abs(overallProgress)} 
-                        size="lg"
-                        thickness={8}
-                        showValue={false}
-                        color={overallProgress < 0 ? "red" : overallProgress > 50 ? "green" : "amber"}
+                        progress={Math.abs(overallProgress)} 
+                        size={120}
+                        strokeWidth={8}
+                        showText={false}
+                        variant={overallProgress < 0 ? "primary" : overallProgress > 50 ? "success" : "accent"}
                       />
                     </div>
                     
@@ -841,10 +841,10 @@ const Progress = () => {
                         </div>
                         <div className="flex justify-center my-2">
                           <JaguarProgressRing 
-                            value={dashboardData.grade.progressToNext || 0} 
-                            size="sm" 
-                            thickness={4}
-                            showValue={false}
+                            progress={dashboardData.grade.progressToNext || 0} 
+                            size={80} 
+                            strokeWidth={4}
+                            showText={false}
                           />
                         </div>
                         <p className="text-xs text-muted-foreground">
