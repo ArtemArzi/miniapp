@@ -351,7 +351,12 @@ const PointAForm = () => {
           { key: 'emotions', label: 'Эмоциональное состояние', description: '1 - депрессия, 10 - эйфория' },
           { key: 'intimacy', label: 'Интимность', description: '1 - крайне низкая, 10 - отличная' }
         ].map(({ key, label, description }) => (
-          <div key={key} className="space-y-3">
+          <div 
+            key={key} 
+            className="space-y-3"
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+          >
             <div className="flex justify-between items-center">
               <Label>{label}</Label>
               <span className="text-2xl font-bold text-primary">{formData[key][0]}</span>
