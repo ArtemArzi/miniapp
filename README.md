@@ -72,11 +72,11 @@ npm run docker:run
 ## 🏗️ Архитектура
 
 ### Frontend
-- **React 19** с современными хуками
+- **React 18** с современными хуками
 - **Vite** для быстрой разработки и сборки
 - **Tailwind CSS v4** для стилизации
 - **Radix UI** для доступных компонентов
-- **React Router v7** для навигации
+- **React Router v6** для навигации
 
 ### Backend
 - **Node.js** с фреймворком Express

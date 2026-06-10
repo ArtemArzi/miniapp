@@ -284,7 +284,9 @@ const gracefulShutdown = async (signal) => {
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 
-// Запускаем сервер
-startServer();
+// Запускаем сервер, только если файл не импортирован как модуль
+if (require.main === module) {
+  startServer();
+}
 
 module.exports = app;
